@@ -79,7 +79,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
         //Add the Constraints
         [self.dayLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.dayLabel setBackgroundColor:[UIColor clearColor]];
+        [self.dayLabel setBackgroundColor:[UIColor whiteColor]];
         self.dayLabel.layer.cornerRadius = PDTSimpleCalendarCircleSize/2;
         self.dayLabel.layer.masksToBounds = YES;
 
@@ -89,6 +89,15 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dayLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:PDTSimpleCalendarCircleSize]];
 
         [self setCircleColor:NO selected:NO];
+        
+        self.dayLabel.opaque = YES;
+        
+        self.layer.shouldRasterize = YES;
+        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        self.contentView.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = self.contentView.backgroundColor;
+        self.opaque = YES;
+        self.contentView.opaque = YES;
     }
 
     return self;
@@ -111,6 +120,12 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 {
     _isToday = isToday;
     [self setCircleColor:isToday selected:self.selected];
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    
+    [self setCircleColor:self.isToday selected:highlighted];
 }
 
 - (void)setSelected:(BOOL)selected
